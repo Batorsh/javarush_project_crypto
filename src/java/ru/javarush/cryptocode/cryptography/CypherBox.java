@@ -3,7 +3,7 @@ package ru.javarush.cryptocode.cryptography;
 import java.util.*;
 
 public class CypherBox {
-    public static Map<Character, Character> mapOfCharAccordance = new HashMap<>();
+    private static Map<Character, Character> mapOfCharAccordance = new HashMap<>();
     private static final char[] ALPHABET = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з',
             'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
             'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '«', '»', '(', ')', '"', '\'', ':', '!', '?', ' ', '-', '+'};
@@ -13,7 +13,7 @@ public class CypherBox {
         return makeOutputArraysOfChar(inputCharacters);
     }
 
-    public static void setKeyToMapOfCharAccordance(int setKey) {
+    private static void setKeyToMapOfCharAccordance(int setKey) {
         if (setKey >= 0) {
             for (int i = 0; i < ALPHABET.length; i++) {
                 if (i + setKey < ALPHABET.length) {
@@ -33,7 +33,7 @@ public class CypherBox {
         }
     }
 
-    public static char[] makeOutputArraysOfChar(char[] inputCharacters){
+    private static char[] makeOutputArraysOfChar(char[] inputCharacters){
         char[] outputCharacters = new char[inputCharacters.length];
         for (int j = 0; j < inputCharacters.length; j++) {
             char lowCaseChar = Character.toLowerCase(inputCharacters[j]);
@@ -42,7 +42,7 @@ public class CypherBox {
         return outputCharacters;
     }
 
-    public static char change(char inputChar) {
+    private static char change(char inputChar) {
         if (!mapOfCharAccordance.containsKey(inputChar)) {
             System.out.println(inputChar);
             return inputChar;

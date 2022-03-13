@@ -1,6 +1,7 @@
 package ru.javarush.cryptocode.consoleui;
 
 import ru.javarush.cryptocode.cryptography.CryptoCode;
+import ru.javarush.cryptocode.cryptography.StaticMethod;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +15,8 @@ public class Dialog {
     public static int typeOfOperation;
 
     public static void start() {
-        System.out.println("Введите операции: если шифрования то введите 1,\n если дешифрование с известным ключом - 2,\n дешифровка методом BruteForce - 3");
+        System.out.println("Введите операции: если шифрования то введите 1,\n если дешифрование с известным ключом - 2,\n дешифровка методом BruteForce - 3,\n" +
+                "дешифровка статистическим методом - 4");
         try {
             Scanner scanner1 = new Scanner(System.in);
             typeOfOperation = scanner1.nextInt();
@@ -51,7 +53,11 @@ public class Dialog {
             CryptoCode.start(addressOfFileForRead, addressOfFileForWrite, key);
         }
         if (typeOfOperation == 3) {
-            CryptoCode.startBruteForce(addressOfFileForRead, addressOfFileForWrite);
+            CryptoCode.startBruteForceMethod(addressOfFileForRead, addressOfFileForWrite);
+        }
+
+        if (typeOfOperation == 4) {
+            StaticMethod.startStaticMethod(addressOfFileForRead, addressOfFileForWrite);
         }
 
     }

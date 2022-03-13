@@ -1,49 +1,49 @@
 package ru.javarush.cryptocode.cryptography;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import ru.javarush.cryptocode.fileinteraction.FileReaderWriter;
+
+import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
+
 import static ru.javarush.cryptocode.consoleui.Dialog.*;
 
 public class CryptoCode {
 
-    // pathOfFile
-    public static void start() {
-        String textFromFile = "";
-        try (BufferedReader reader = new BufferedReader(new FileReader(addressOfFile))) {
-            while (reader.ready()) {
-                textFromFile = reader.readLine();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public static void start(String addressOfFile, String addressOfFileForWrite) {
+        String textFromFile = FileReaderWriter.readFromFile(addressOfFile);
         char[] inputCharacters = textFromFile.toCharArray();
         char[] outputCharacters = new char[inputCharacters.length];
+        ChangeCharByKey.setKeyToMapOfCharAccordance(key);
         for (int i = 0; i < inputCharacters.length; i++) {
             char lowCaseChar = Character.toLowerCase(inputCharacters[i]);
             outputCharacters[i] = ChangeCharByKey.change(lowCaseChar);
         }
-
-        String newFileName = getNewFileName(addressOfFile, "crypted");
-        Path outputFilePath = Paths.get(newFileName);
-        if (Files.notExists(outputFilePath)) {
-            try {
-                Files.createFile(outputFilePath);
-            } catch (Exception e) {
-                System.out.println("Ошибка при создании файла");
-                e.printStackTrace();
-            }
-        }
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(newFileName))) {
-            bufferedWriter.write(outputCharacters);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileReaderWriter.writeToFile(addressOfFileForWrite, outputCharacters);
     }
 
-    public static String getNewFileName(String oldFileName, String addition) {
-        int dotIndex = oldFileName.lastIndexOf(".");
-        return oldFileName.substring(0, dotIndex) + addition + oldFileName.substring(dotIndex);
+    public static void startBruteForce(String addressOfFile, String addressOfFileForWrite) {
+        String textFromFile = FileReaderWriter.readFromFile(addressOfFile);
+        int resultKey = 0;
+        char[] inputCharacters = textFromFile.toCharArray();
+        char[] outputCharacters = new char[inputCharacters.length];
+        char[] resultOutputCharacters = new char[inputCharacters.length];
+        int maxOfCoincidence = 0;
+        for (int i = 0; i < 42; i++) {
+            int keyForCheck = -1*i;
+            ChangeCharByKey.setKeyToMapOfCharAccordance(keyForCheck);
+            for (int j = 0; j < inputCharacters.length; j++) {
+                char lowCaseChar = Character.toLowerCase(inputCharacters[j]);
+                outputCharacters[j] = ChangeCharByKey.change(lowCaseChar);
+            }
+            int count = CounterOfCoincidenceSpaceAndDots.countOfCoincidenceSpaceAndDots(outputCharacters);
+            if (maxOfCoincidence < count) {
+                maxOfCoincidence = count;
+                resultKey = keyForCheck;
+                resultOutputCharacters = Arrays.copyOf(outputCharacters, outputCharacters.length);
+            }
+        }
+        System.out.println("Максимальное совпадение: " + maxOfCoincidence + ". Ключ: " + resultKey);
+        FileReaderWriter.writeToFile(addressOfFileForWrite, resultOutputCharacters);
     }
 
 }

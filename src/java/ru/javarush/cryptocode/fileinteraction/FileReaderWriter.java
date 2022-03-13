@@ -8,20 +8,18 @@ import java.nio.file.Paths;
 
 public class FileReaderWriter {
     public static String readFromFile(String addressOfFIleForRead) {
-        StringBuilder textFromFile= new StringBuilder("");
+        StringBuilder textFromFile = new StringBuilder("");
         try (BufferedReader reader = new BufferedReader(new FileReader(addressOfFIleForRead))) {
             while (reader.ready()) {
                 textFromFile.append(reader.readLine()).append(" ");
             }
-        } catch (
-                IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return textFromFile.toString();
     }
 
     public static void writeToFile(String addressOfFileForWrite, char[] outputCharacters) {
-
         Path outputFilePath = Paths.get(addressOfFileForWrite);
         if (Files.notExists(outputFilePath)) {
             try {
@@ -36,10 +34,5 @@ public class FileReaderWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String getNewFileName(String oldFileName, String addition) {
-        int dotIndex = oldFileName.lastIndexOf(".");
-        return oldFileName.substring(0, dotIndex) + addition + oldFileName.substring(dotIndex);
     }
 }

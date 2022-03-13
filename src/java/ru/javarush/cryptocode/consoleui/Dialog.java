@@ -48,7 +48,7 @@ public class Dialog {
                 System.out.println("Не правильно введено число");
                 return;
             }
-            CryptoCode.start(addressOfFileForRead, addressOfFileForWrite);
+            CryptoCode.start(addressOfFileForRead, addressOfFileForWrite, key);
         }
         if (typeOfOperation == 3) {
             CryptoCode.startBruteForce(addressOfFileForRead, addressOfFileForWrite);

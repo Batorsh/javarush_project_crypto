@@ -15,7 +15,7 @@ public class Dialog {
     public static int typeOfOperation;
 
     public static void start() {
-        System.out.println("Введите операции: если шифрования то введите 1,\n если дешифрование с известным ключом - 2,\n дешифровка методом BruteForce - 3,\n" +
+        System.out.println("Введите желаемый тип операции:\nесли шифрования то введите 1,\nесли дешифрование с известным ключом - 2,\nдешифровка методом BruteForce - 3,\n" +
                 "дешифровка статистическим методом - 4");
         try {
             Scanner scanner1 = new Scanner(System.in);
@@ -25,18 +25,17 @@ public class Dialog {
             return;
         }
 
-        System.out.println("Введите адрес файла для чтения");
-        //Scanner scanner = new Scanner(System.in);
-        addressOfFileForRead = "C:\\test\\file.txt";
-        inputFilePath = Path.of(addressOfFileForRead);
-        if (Files.notExists(inputFilePath)) {
+        System.out.println("Введите адрес файла для чтения, например C:\\test\\file.txt");
+        Scanner scanner = new Scanner(System.in);
+        addressOfFileForRead = scanner.nextLine();
+        if (Files.notExists(Path.of(addressOfFileForRead))) {
             System.out.println("Файл с таким адресом не существует");
             return;
         }
 
-        System.out.println("Введите адрес файла для записи результата");
-        //Scanner scanner = new Scanner(System.in);
-        addressOfFileForWrite= "C:\\test\\outputfile.txt";
+        System.out.println("Введите адрес файла для записи результата, например: C:\\test\\outputfile.txt");
+        Scanner scanner2 = new Scanner(System.in);
+        addressOfFileForWrite= scanner2.nextLine();
 
         if (typeOfOperation == 1 || typeOfOperation == 2) {
             System.out.println("Введите ключ от 0 до 42");
@@ -52,12 +51,20 @@ public class Dialog {
             }
             CryptoCode.start(addressOfFileForRead, addressOfFileForWrite, key);
         }
+
         if (typeOfOperation == 3) {
             CryptoCode.startBruteForceMethod(addressOfFileForRead, addressOfFileForWrite);
         }
 
         if (typeOfOperation == 4) {
-            StaticMethod.startStaticMethod(addressOfFileForRead, addressOfFileForWrite);
+            System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt");
+            Scanner scanner3 = new Scanner(System.in);
+            String addressOfFileForExample = scanner.nextLine();
+            if (Files.notExists(Path.of(addressOfFileForExample))) {
+                System.out.println("Файл с таким адресом не существует");
+                return;
+            }
+            StaticMethod.startStaticMethod(addressOfFileForRead, addressOfFileForWrite, addressOfFileForExample);
         }
 
     }

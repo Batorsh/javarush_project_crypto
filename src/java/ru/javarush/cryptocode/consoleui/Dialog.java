@@ -8,47 +8,14 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Dialog {
-    public static Path inputFilePath;
-    public static int key;
-    public static String addressOfFileForRead;
-    public static String addressOfFileForWrite;
-    public static int typeOfOperation;
 
     public static void start() {
-        System.out.println("Введите желаемый тип операции:\nдля шифрования то введите 1,\nесли дешифрования с известным ключом - 2,\nдешифровка методом BruteForce - 3,\n" +
-                "дешифровка статистическим методом - 4");
-        try {
-            Scanner scanner1 = new Scanner(System.in);
-            typeOfOperation = scanner1.nextInt();
-        } catch (Exception e) {
-            System.out.println("Не правильно введено число");
-            return;
-        }
-
-        System.out.println("Введите адрес файла для чтения, например C:\\test\\file.txt");
-        Scanner scanner = new Scanner(System.in);
-        addressOfFileForRead = scanner.nextLine();
-        if (Files.notExists(Path.of(addressOfFileForRead))) {
-            System.out.println("Файл с таким адресом не существует");
-            return;
-        }
-
-        System.out.println("Введите адрес файла для записи результата, например: C:\\test\\outputfile.txt");
-        Scanner scanner2 = new Scanner(System.in);
-        addressOfFileForWrite= scanner2.nextLine();
+        int typeOfOperation = getTypeOfOperation();
+        String addressOfFileForRead = getAddressOfFileForRead();
+        String addressOfFileForWrite = getAddressOfFileForWrite();
 
         if (typeOfOperation == 1 || typeOfOperation == 2) {
-            System.out.println("Введите ключ от 0 до 42");
-            try {
-                Scanner scanner1 = new Scanner(System.in);
-                key = scanner1.nextInt();
-                if (typeOfOperation == 2) {
-                    key = -1 * key;
-                }
-            } catch (Exception e) {
-                System.out.println("Не правильно введено число");
-                return;
-            }
+            int key = getKey(typeOfOperation);
             CryptoCode.start(addressOfFileForRead, addressOfFileForWrite, key);
         }
 
@@ -57,16 +24,94 @@ public class Dialog {
         }
 
         if (typeOfOperation == 4) {
-            System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt");
-            Scanner scanner3 = new Scanner(System.in);
-            String addressOfFileForExample = scanner.nextLine();
-            if (Files.notExists(Path.of(addressOfFileForExample))) {
-                System.out.println("Файл с таким адресом не существует");
-                return;
-            }
+            String addressOfFileForExample = getAddressOfFileForExample();
             StaticMethod.startStaticMethod(addressOfFileForRead, addressOfFileForWrite, addressOfFileForExample);
         }
 
+    }
+
+    private static int getTypeOfOperation() {
+        System.out.println("Введите желаемый тип операции:\nдля шифрования введите 1,\nдля дешифрования с известным ключом - 2,\nдля дешифровки методом BruteForce - 3,\n" +
+                "для дешифровки статистическим методом - 4,\nдля выхода введите число меньше 0 или больше 4.");
+        try {
+            Scanner scanner1 = new Scanner(System.in);
+            int typeOfOperation = scanner1.nextInt();
+            if (typeOfOperation < 0 || typeOfOperation > 4) {
+                System.out.println("Программа завершена");
+                System.exit(1);
+            }
+            return typeOfOperation;
+        } catch (Exception e) {
+            System.out.println("Не правильно введено число, попробуйте ещё раз.");
+            return getTypeOfOperation();
+        }
+    }
+
+    private static String getAddressOfFileForRead() {
+        System.out.println("Введите адрес файла для чтения, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\", например C:\\test\\file.txt");
+        Scanner scanner = new Scanner(System.in);
+        String address = scanner.nextLine();
+        if (address.equalsIgnoreCase("exit") || address.equalsIgnoreCase("quit")) {
+            System.out.println("Программа завершена");
+            System.exit(1);
+        }
+        if (!address.startsWith("C:\\test\\")) {
+            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\".");
+            return getAddressOfFileForRead();
+        }
+        if (!address.endsWith(".txt")) {
+            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\".");
+            return getAddressOfFileForRead();
+        }
+        if (Files.notExists(Path.of(address))) {
+            System.out.println("Файл с таким адресом не существует, попробуйте ввести еще раз.");
+            return getAddressOfFileForRead();
+        }
+        return address;
+    }
+
+    private static String getAddressOfFileForWrite() {
+        System.out.println("Введите адрес файла для записи результата, например: C:\\test\\outputfile.txt");
+        Scanner scanner2 = new Scanner(System.in);
+        String address = scanner2.nextLine();
+        if (!address.startsWith("C:\\test\\")) {
+            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\"");
+            return getAddressOfFileForWrite();
+        }
+        return address;
+    }
+
+    private static int getKey(int typeOfOperation) {
+        System.out.println("Введите ключ от 0 до 42, для выхода введите число меньше 0 или больше 42");
+        try {
+            Scanner scanner1 = new Scanner(System.in);
+            int key = scanner1.nextInt();
+            if (key < 0 || key > 42) {
+                System.out.println("Число не соответствует требованиям");
+                System.exit(1);
+            }
+            if (typeOfOperation == 2) {
+                return -1 * key;
+            }
+            return key;
+        } catch (Exception e) {
+            System.out.println("Не правильно введено число!!!!!!!!!!!!");
+            return getKey(typeOfOperation);
+        }
+    }
+
+    private static String getAddressOfFileForExample(){
+        System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt");
+        Scanner scanner3 = new Scanner(System.in);
+        String addressOfFileForExample = scanner3.nextLine();
+        if (addressOfFileForExample.equalsIgnoreCase("exit") || addressOfFileForExample.equalsIgnoreCase("quit")) {
+            System.exit(1);
+        }
+        if (Files.notExists(Path.of(addressOfFileForExample))) {
+            System.out.println("Файл с таким адресом не существует, введите ещё раз");
+            return getAddressOfFileForExample();
+        }
+        return addressOfFileForExample;
     }
 }
 

@@ -102,7 +102,7 @@ public class Dialog {
         }
     }
 
-    private static String getAddressOfFileForExample(){
+    private static String getAddressOfFileForExample() {
         System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt, для выхода введите exit или quit");
         Scanner scanner3 = new Scanner(System.in);
         String addressOfFileForExample = scanner3.nextLine();

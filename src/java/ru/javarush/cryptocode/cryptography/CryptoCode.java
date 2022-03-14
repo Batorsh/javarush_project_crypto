@@ -1,6 +1,7 @@
 package ru.javarush.cryptocode.cryptography;
 
 import ru.javarush.cryptocode.fileinteraction.FileReaderWriter;
+
 import java.util.Arrays;
 
 
@@ -21,8 +22,7 @@ public class CryptoCode {
         char[] resultOutputCharacters = new char[inputCharacters.length];
         int maxOfCoincidence = 0;
         for (int i = 0; i < 42; i++) {
-
-            int keyForCheck = -1*i;
+            int keyForCheck = -1 * i;
             outputCharacters = CypherBox.getShiftedArray(keyForCheck, inputCharacters);
             int count = CounterOfCoincidenceSpaceAndDots.countOfCoincidenceSpaceAndDots(outputCharacters);
             if (maxOfCoincidence < count) {

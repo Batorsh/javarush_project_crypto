@@ -8,7 +8,7 @@ public class CypherBox {
             'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ',
             'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '«', '»', '(', ')', '"', '\'', ':', '!', '?', ' ', '-', '+'};
 
-    public static char[] getShiftedArray(int key, char[] inputCharacters){
+    public static char[] getShiftedArray(int key, char[] inputCharacters) {
         setKeyToMapOfCharAccordance(key);
         return makeOutputArraysOfChar(inputCharacters);
     }
@@ -33,7 +33,7 @@ public class CypherBox {
         }
     }
 
-    private static char[] makeOutputArraysOfChar(char[] inputCharacters){
+    private static char[] makeOutputArraysOfChar(char[] inputCharacters) {
         char[] outputCharacters = new char[inputCharacters.length];
         for (int j = 0; j < inputCharacters.length; j++) {
             char lowCaseChar = Character.toLowerCase(inputCharacters[j]);

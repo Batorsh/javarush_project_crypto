@@ -48,19 +48,15 @@ public class Dialog {
     }
 
     private static String getAddressOfFileForRead() {
-        System.out.println("Введите адрес файла для чтения, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\", например C:\\test\\file.txt");
+        System.out.println("Введите адрес файла для чтения, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\", например C:\\test\\file.txt\nдля выхода введите exit или quit\"");
         Scanner scanner = new Scanner(System.in);
         String address = scanner.nextLine();
         if (address.equalsIgnoreCase("exit") || address.equalsIgnoreCase("quit")) {
             System.out.println("Программа завершена");
             System.exit(1);
         }
-        if (!address.startsWith("C:\\test\\")) {
-            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\".");
-            return getAddressOfFileForRead();
-        }
-        if (!address.endsWith(".txt")) {
-            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\".");
+        if (!address.startsWith("C:\\test\\") || !address.endsWith(".txt")) {
+            System.out.println("Адрес файла не верный, введите ещё раз");
             return getAddressOfFileForRead();
         }
         if (Files.notExists(Path.of(address))) {
@@ -71,12 +67,16 @@ public class Dialog {
     }
 
     private static String getAddressOfFileForWrite() {
-        System.out.println("Введите адрес файла для записи результата, например: C:\\test\\outputfile.txt");
+        System.out.println("Введите адрес файла для записи результата, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\", например: C:\\test\\outputfile.txt");
         Scanner scanner2 = new Scanner(System.in);
         String address = scanner2.nextLine();
         if (!address.startsWith("C:\\test\\")) {
             System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\"");
             return getAddressOfFileForWrite();
+        }
+        if (!address.endsWith(".txt")) {
+            System.out.println("Адрес файла не верный, введите ещё раз, адрес должен начинаться с \"C:\\test\\\", а заканчиваться на \".txt\".");
+            return getAddressOfFileForRead();
         }
         return address;
     }
@@ -87,7 +87,7 @@ public class Dialog {
             Scanner scanner1 = new Scanner(System.in);
             int key = scanner1.nextInt();
             if (key < 0 || key > 42) {
-                System.out.println("Число не соответствует требованиям");
+                System.out.println("Программа завершена.");
                 System.exit(1);
             }
             if (typeOfOperation == 2) {
@@ -95,13 +95,13 @@ public class Dialog {
             }
             return key;
         } catch (Exception e) {
-            System.out.println("Не правильно введено число!!!!!!!!!!!!");
+            System.out.println("Не правильно введено число, попробуйте ввести ещё раз");
             return getKey(typeOfOperation);
         }
     }
 
     private static String getAddressOfFileForExample(){
-        System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt");
+        System.out.println("Введите адрес файла для примера, например C:\\test\\examplefile.txt, для выхода введите exit или quit");
         Scanner scanner3 = new Scanner(System.in);
         String addressOfFileForExample = scanner3.nextLine();
         if (addressOfFileForExample.equalsIgnoreCase("exit") || addressOfFileForExample.equalsIgnoreCase("quit")) {

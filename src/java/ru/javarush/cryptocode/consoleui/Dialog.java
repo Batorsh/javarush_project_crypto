@@ -15,7 +15,7 @@ public class Dialog {
     public static int typeOfOperation;
 
     public static void start() {
-        System.out.println("Введите желаемый тип операции:\nесли шифрования то введите 1,\nесли дешифрование с известным ключом - 2,\nдешифровка методом BruteForce - 3,\n" +
+        System.out.println("Введите желаемый тип операции:\nдля шифрования то введите 1,\nесли дешифрования с известным ключом - 2,\nдешифровка методом BruteForce - 3,\n" +
                 "дешифровка статистическим методом - 4");
         try {
             Scanner scanner1 = new Scanner(System.in);
